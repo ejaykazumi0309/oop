@@ -78,8 +78,18 @@ public class Main extends javax.swing.JFrame {
         });
 
         jButton2.setText("Update");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Remove");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -210,6 +220,50 @@ public class Main extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+          try{
+            
+                FileInputStream reader = new FileInputStream("data.dat");
+                ObjectInputStream read = new ObjectInputStream(reader);
+                ArrayList<Student> list = (ArrayList<Student>) read.readObject();
+            
+            Student s1 = list.get(table.getSelectedRow());
+            s1.setId(Integer.parseInt(idHolder.getText()));
+            s1.setName(nameHolder.getText());
+            s1.setAge(Integer.parseInt(ageHolder.getText()));
+            s1.setCourse(courseHolder.getText());
+            s1.setGpa(Double.parseDouble(gpaHolder.getText()));
+            
+            FileOutputStream writer = new FileOutputStream("data.dat");
+            ObjectOutputStream write = new ObjectOutputStream(writer);
+            write.writeObject(list);
+            load();
+        }catch(Exception e){
+            
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+         try{
+            
+                FileInputStream reader = new FileInputStream("data.dat");
+                ObjectInputStream read = new ObjectInputStream(reader);
+                ArrayList<Student> list = (ArrayList<Student>) read.readObject();
+            
+            String name = table.getValueAt(table.getSelectedRow(), 1).toString();
+            list.removeIf(s1 -> s1.getName().equals(name));
+            
+            FileOutputStream writer = new FileOutputStream("data.dat");
+            ObjectOutputStream write = new ObjectOutputStream(writer);
+            write.writeObject(list);
+            load();
+        }catch(Exception e){
+            
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     public void load(){
           try{
